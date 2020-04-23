@@ -15,4 +15,4 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        run: sudo apt-get install -y python3-venv && ./deploy.sh
+        run: sudo apt-get update && sudo apt-get install -y python3-venv && ./deploy.sh
