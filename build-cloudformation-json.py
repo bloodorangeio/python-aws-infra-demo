@@ -1,17 +1,13 @@
 #!/usr/bin/env python3
 
+import os
 from troposphere import Base64, FindInMap, GetAtt
 from troposphere import Parameter, Output, Ref, Template
 import troposphere.ec2 as ec2
 
+message = os.getenv('MESSAGE', 'hello world')
 
 template = Template()
-
-msg_param = template.add_parameter(Parameter(
-    "Message",
-    Description="Message to echo on webserver",
-    Type="String",
-))
 
 template.add_mapping('RegionMap', {
     "us-east-1": {"AMI": "ami-7f418316"},
@@ -35,7 +31,7 @@ exec > >(tee /var/log/user-data.log|logger -t user-data -s 2>/dev/console) 2>&1
     cd /home/ec2-user/webserver
     echo "<h1>%s</h1>" > index.html
     python -m SimpleHTTPServer 80 &
-""" % msg_param)
+""" % message)
 ))
 
 template.add_output([
