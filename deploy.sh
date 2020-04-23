@@ -18,13 +18,13 @@ if [[ ! -d .venv/ ]]; then
   pip3 install -r requirements.txt
 fi
 
-python3 build-cloudformation-json.py \
+MESSAGE="${MESSAGE}" \
+  python3 build-cloudformation-json.py \
   > cloudformation.json
 
 aws cloudformation deploy \
   --no-fail-on-empty-changeset \
   --template-file cloudformation.json \
-  --parameter-overrides "Message=${MESSAGE}" \
   --stack-name "${STACK_NAME}"
 
 IP="$(aws cloudformation describe-stacks \

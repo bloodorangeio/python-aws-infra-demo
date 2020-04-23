@@ -10,25 +10,23 @@ message = os.getenv('MESSAGE', 'hello world')
 template = Template()
 
 template.add_mapping('RegionMap', {
-    "us-east-1": {"AMI": "ami-7f418316"},
-    "us-west-1": {"AMI": "ami-951945d0"},
-    "us-west-2": {"AMI": "ami-16fd7026"},
-    "eu-west-1": {"AMI": "ami-24506250"},
-    "sa-east-1": {"AMI": "ami-3e3be423"},
-    "ap-southeast-1": {"AMI": "ami-74dda626"},
-    "ap-northeast-1": {"AMI": "ami-dcfa4edd"}
+    # Virginia
+    "us-east-1": {"AMI": "ami-0323c3dd2da7fb37d"},
+
+    # California
+    "us-west-1": {"AMI": "ami-06fcc1f0bc2c8943f"},
 })
 
 ec2_instance = template.add_resource(ec2.Instance(
     "Ec2Instance",
     ImageId=FindInMap("RegionMap", Ref("AWS::Region"), "AMI"),
-    InstanceType="t1.micro",
+    InstanceType="t2.micro",
     KeyName="chipy",
     SecurityGroups=["default"],
     UserData=Base64("""#!/bin/bash -xe
 exec > >(tee /var/log/user-data.log|logger -t user-data -s 2>/dev/console) 2>&1
-    mkdir -p /home/ec2-user/webserver
-    cd /home/ec2-user/webserver
+    mkdir -p /webserver
+    cd /webserver
     echo "<h1>%s</h1>" > index.html
     python -m SimpleHTTPServer 80 &
 """ % message)
