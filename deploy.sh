@@ -1,7 +1,6 @@
 #!/bin/bash -e
 
 STACK_NAME="${STACK_NAME:-chipylove}"
-MESSAGE="${MESSAGE:-hello world}"
 
 # Verify AWS access
 aws iam get-user &> /dev/null || \
@@ -17,8 +16,7 @@ if [[ ! -d .venv/ ]]; then
   pip3 install -r requirements.txt
 fi
 
-MESSAGE="${MESSAGE}" \
-  python3 build-cloudformation-json.py \
+python3 build-cloudformation-json.py \
   > cloudformation.json
 
 aws cloudformation deploy \
