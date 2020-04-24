@@ -1,7 +1,6 @@
 #!/bin/bash -e
 
 STACK_NAME="${STACK_NAME:-chipylove}"
-AWS_DEFAULT_REGION="${AWS_DEFAULT_REGION:-us-east-1}"
 MESSAGE="${MESSAGE:-hello world}"
 
 # Verify AWS access
